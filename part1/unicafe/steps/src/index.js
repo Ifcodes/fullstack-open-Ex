@@ -23,49 +23,39 @@ const Buttons = (props) => {
     </div>
   )
 }
+const Statistic = ({text, value}) =>{
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  )
+}
 const Statistics = (props) => {
   if(props.good == 0 && props.neutral == 0 && props.bad == 0){
-    return (
+      return (
         <div>
           <h1>Statistics</h1>
           <p>No feedback yet</p>
         </div>
-    ) 
+      ) 
   }
   let total = props.good + props.neutral + props.bad
   let newAv = (props.good * 1 + props.bad * -1) / total
   let positive = (props.good/total) * 100
+  let symbol = "%"
   return (
-    <div>
-          <h1>Statistics</h1>
-          <tr>
-            <td>{props.goodRemark} </td>
-            <td>{props.good}</td>
-          </tr>
-          <tr>
-            <td>{props.neutralRemark}</td>
-            <td>{props.neutral}</td>
-          </tr>
-          <tr>
-            <td>{props.badRemark}</td>
-            <td> {props.bad}</td>
-          </tr>
-          <tr>
-            <td>Total  </td>
-            <td>{total || 0}</td>
-          </tr>
-          <tr>
-            <td>Average  </td>
-            <td>{newAv || 0}</td>
-          </tr>
-          <tr>
-            <td>Positives  </td>
-            <td>{positive || 0}%</td>
-          </tr>
-    </div>
-  )
+    <>
+      <h1>Statistics</h1>
+      <Statistic text="good" value={props.good} />
+      <Statistic text="neutral" value={props.neutral} />
+      <Statistic text="bad" value={props.bad} />
+      <Statistic text="Total" value={total || 0} />
+      <Statistic text="Average" value={newAv || 0} />
+      <Statistic text="Positives" value={`${positive || 0}%`} />
+    </>
+      )
 }
-
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
@@ -75,7 +65,7 @@ const App = () => {
   const badRemark = 'bad'
 
   return(
-    <div>
+    <>
       <Heading />
 
       <Buttons good={good} neutral={neutral} bad={bad} setGood={setGood} setBad={setBad} setNeutral={setNeutral} goodRemark={goodRemark} badRemark={badRemark} neutralRemark={neutralRemark} />
@@ -85,7 +75,7 @@ const App = () => {
          <Statistics goodRemark={goodRemark} badRemark={badRemark} neutralRemark={neutralRemark} good={good} neutral={neutral} bad={bad} />
         </tbody>
       </table>
-    </div>
+    </>
   )
 }
 ReactDOM.render(<App />, document.getElementById('root'))
