@@ -1,13 +1,16 @@
 import React from 'react'
 import Header from './Header'
 import Content from './Content'
+import Total from './Total'
 
-const Course = ({course}) => {
+
+const Course = (props) => {
   return (
-    <div>
-        <Header course={course.name} />
-        <Content  parts={course.parts}/>
-    </div>
+    <>
+      <Header name={props.name}/>
+      <Content  parts={props.parts}/> 
+      <Total parts={props.parts}/>
+    </>
   )
 }
 
