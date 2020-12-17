@@ -4,7 +4,7 @@ const ContactName = (props) => {
   return(
     <>
       <p>
-        {props.persons}
+        {props.person}
       </p>
     </>
   )
@@ -19,10 +19,10 @@ function App() {
 
   const handleNewNames = (event) =>{
     setNewName(event.target.value)
+    // console.log(event.target.value)
   }
-  const addContact = (event) => {
-    event.preventDefault()
-    // console.log('button clicked', event.target)
+  const addContact = () => {
+    // event.preventDefault()
     const addName = {
       name: newName,
       id: Math.random().toString(36).substring(2, 10)
@@ -30,10 +30,31 @@ function App() {
     setPersons(persons.concat(addName))
     setNewName('')
   }
+
+  const checkAddContact = (event) => {
+    event.preventDefault()
+    const nameTest = newName.toLowerCase()
+    const personExist = persons.find(person => {
+      const personChanged = person.name.toLowerCase()
+      console.log({personChanged , nameTest});
+      return personChanged === nameTest
+    })
+    console.log({personExist});
+      
+
+    if(personExist)  {
+      window.confirm(`${newName} is already added to phonebook`)
+      setNewName(' ')
+    }
+    else{
+      addContact()
+    }
+
+  }
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addContact}>
+      <form onSubmit={checkAddContact}>
         <div>
           name: <input value={newName} onChange={handleNewNames}/>
         </div>
@@ -43,7 +64,7 @@ function App() {
       </form>
       <h2>Numbers</h2>
       <>
-        {persons.map(person => <ContactName key={person.id} persons={person.name}/>)}
+        {persons.map(person => <ContactName key={person.id} person={person.name}/>)}
       </>
     </div>
   );
