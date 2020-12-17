@@ -4,7 +4,8 @@ const ContactName = (props) => {
   return(
     <>
       <p>
-        {props.person} {props.phoneNumber}
+        {props.person} <br />
+        {props.phoneNumber}
       </p>
     </>
   )
@@ -17,6 +18,10 @@ function App() {
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNumber] = useState('')
+
+  const styles = {
+    margin: "1rem 0"
+  }
 
   const handleNewNames = (event) =>{
     setNewName(event.target.value)
@@ -64,7 +69,7 @@ function App() {
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={checkAddContact}>
-        <div>
+        <div style={styles}>
           name: <input value={newName} onChange={handleNewNames} required/>
         </div>
         <div>
