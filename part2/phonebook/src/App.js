@@ -4,7 +4,7 @@ const ContactName = (props) => {
   return(
     <>
       <p>
-        {props.person}
+        {props.person} {props.phoneNumber}
       </p>
     </>
   )
@@ -12,23 +12,29 @@ const ContactName = (props) => {
 
 function App() {
   const [persons, setPersons] = useState([
-    {name: 'Arto Hellas', id: Math.random().toString(36).substring(2, 10)},
-    {name: 'William Bernard', id: Math.random().toString(36).substring(2, 10)}
+    {name: 'Arto Hellas', id: Math.random().toString(36).substring(2, 10), phoneNumber: +23410100882},
+    {name: 'William Bernard', id: Math.random().toString(36).substring(2, 10), phoneNumber: +2348104777564}
   ])
   const [newName, setNewName] = useState('')
+  const [newNumber, setNumber] = useState('')
 
   const handleNewNames = (event) =>{
     setNewName(event.target.value)
     // console.log(event.target.value)
   }
+  const handleNumbers = (e) => {
+    setNumber(e.target.value)
+  }
   const addContact = () => {
     // event.preventDefault()
     const addName = {
       name: newName,
-      id: Math.random().toString(36).substring(2, 10)
+      id: Math.random().toString(36).substring(2, 10),
+      phoneNumber: newNumber
     }
     setPersons(persons.concat(addName))
     setNewName('')
+    setNumber('')
   }
 
   const checkAddContact = (event) => {
@@ -39,12 +45,15 @@ function App() {
       console.log({personChanged , nameTest});
       return personChanged === nameTest
     })
-    console.log({personExist});
-      
+    const numberExist = persons.find(person => person.phoneNumber === newNumber)      
 
     if(personExist)  {
-      window.confirm(`${newName} is already added to phonebook`)
+      window.confirm(`${newName} or Number is already added to phonebook`)
       setNewName(' ')
+    }else if(numberExist) {
+      window.confirm(`PhoneNumber is already added to phonebook`)
+      setNewName(' ')
+      setNumber(' ')
     }
     else{
       addContact()
@@ -56,7 +65,10 @@ function App() {
       <h2>Phonebook</h2>
       <form onSubmit={checkAddContact}>
         <div>
-          name: <input value={newName} onChange={handleNewNames}/>
+          name: <input value={newName} onChange={handleNewNames} required/>
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={handleNumbers} required/>
         </div>
         <div>
           <button type="submit">Add</button>
@@ -64,7 +76,7 @@ function App() {
       </form>
       <h2>Numbers</h2>
       <>
-        {persons.map(person => <ContactName key={person.id} person={person.name}/>)}
+        {persons.map(person => <ContactName key={person.id} person={person.name} phoneNumber={person.phoneNumber}/>)}
       </>
     </div>
   );
