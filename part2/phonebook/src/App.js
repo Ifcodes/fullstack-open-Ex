@@ -83,12 +83,13 @@ function App() {
   return (
     <div>
       <div>
-        <h2>Search</h2>
+        <h1>Phonebook</h1>
         <form>
-          <input type="search" value={nameFilter} onChange={handleNameFilter}/>
+          <h2>Search Contact</h2>
+          <input type="search" placeholder="Type to search" value={nameFilter} onChange={handleNameFilter}/>
         </form>
       </div>
-      <h2>Phonebook</h2>
+      <h2>Add Contact</h2>
       <form onSubmit={checkAddContact}>
         <div style={styles}>
           name: <input value={newName} onChange={handleNewNames} required/>
@@ -100,7 +101,7 @@ function App() {
           <button type="submit">Add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
+      <h2>Contact List</h2>
       <>
         {
           personToDisplay.map(person => 
