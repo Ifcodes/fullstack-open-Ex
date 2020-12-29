@@ -13,9 +13,10 @@ const AddContact = ({setNewName, newName, setPersons, setNumber, newNumber, pers
   const addContact = () => {
     const addName = {
       name: newName,
-      id: Math.random().toString(36).substring(2, 10),
+      id: persons.length + 1,
       phoneNumber: newNumber
     }
+    console.log(addName.id)
     setPersons(persons.concat(addName))
     setNewName('')
     setNumber('')
@@ -31,7 +32,7 @@ const AddContact = ({setNewName, newName, setPersons, setNumber, newNumber, pers
     const numberExist = persons.find(person => person.phoneNumber === newNumber)      
 
     if(personExist)  {
-      window.confirm(`${newName} or Number is already added to phonebook`)
+      window.confirm(`${newName} is already added to phonebook`)
       setNewName(' ')
     }else if(numberExist) {
       window.confirm(`PhoneNumber is already added to phonebook`)

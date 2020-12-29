@@ -1,16 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AddContact from './components/addContactform'
 import ContactList from './components/contactsDisplay'
 import Filter from './components/searchComp'
+import axios from 'axios'
+
 
 function App() {
-  const [persons, setPersons] = useState([
-    {name: 'Arto Hellas', id: Math.random().toString(36).substring(2, 10), phoneNumber: +23410100882},
-    {name: 'William Bernard', id: Math.random().toString(36).substring(2, 10), phoneNumber: +2348104777564}
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNumber] = useState('')
   const [nameFilter, setNameFilter] = useState('')
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/persons')
+    .then(response => {
+      setPersons(response.data)
+    })
+  },[])
   
   return (
     <div>

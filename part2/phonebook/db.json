@@ -1,0 +1,25 @@
+{
+  "persons": [
+    {
+      "id": 1,
+      "name": "Arto Hellas", 
+      "phoneNumber": "+2348102228633"
+    },
+    {
+      "id": 2,
+      "name": "William Bernard", 
+      "phoneNumber": "+2348126149668"
+    },
+    {
+      "id": 3,
+      "name": "Diana Bernard", 
+      "phoneNumber": "+2348183764788"
+    },
+    {
+      "id": 4,
+      "name": "Dwayne Johnson", 
+      "phoneNumber": "+2348138747389"
+    }
+  ]
+}
+ 
