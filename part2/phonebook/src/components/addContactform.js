@@ -1,4 +1,6 @@
 import React from 'react'
+import axios from 'axios'
+
 
 const AddContact = ({setNewName, newName, setPersons, setNumber, newNumber, persons}) => {
 
@@ -11,16 +13,27 @@ const AddContact = ({setNewName, newName, setPersons, setNumber, newNumber, pers
   }
 
   const addContact = () => {
-    const addName = {
-      name: newName,
-      id: persons.length + 1,
-      phoneNumber: newNumber
+      const addName = {
+        name: newName,
+        id: persons.length + 1,
+        phoneNumber: newNumber
+      }
+      axios
+      .post('http://localhost:3001/persons',addName)
+      .then(response => {
+        console.log(response)
+        console.log(addName.id)
+        setNewName('')
+        setNumber('')
+      })
+      axios.get('http://localhost:3001/persons')
+      .then(response => {
+      setPersons(response.data)
+      })
     }
-    console.log(addName.id)
-    setPersons(persons.concat(addName))
-    setNewName('')
-    setNumber('')
-  }
+    // setPersons(persons.concat(addName))
+   
+  
 
   const checkAddContact = (event) => {
     event.preventDefault()
