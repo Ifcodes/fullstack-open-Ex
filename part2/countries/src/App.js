@@ -4,7 +4,30 @@ import axios from 'axios'
 // const Search = () => {
 
 // }
+const Countries = ({countryName}) => {
+ 
+  return(
+    <p>
+      {countryName}
+    </p>
+  )
+}
 
+const CountriesList = ({countries,searchField}) => {
+  const filtered = countries.filter(country => country.name.toLowerCase().includes(searchField.toLowerCase()))
+
+  const countryList = countries.map(country => country.name)
+
+  const countryToDisplay = searchField.trim() ? filtered : countryList
+
+  return(
+      <>
+        {
+          countryToDisplay.map(country => <Countries countryName={country.name}/>)
+        }
+      </>
+  )
+}
 const App = () => {
 
   const [searchField, setSearchField] = useState('')
@@ -12,9 +35,10 @@ const App = () => {
 
   const handleSearchInput = (event) =>{
     setSearchField(event.target.value)
-    console.log(event.target.value)
+    // console.log(event.target.value)
   }
 
+  
   useEffect(() => {
     axios
     .get('https://restcountries.eu/rest/v2/all')
@@ -23,12 +47,16 @@ const App = () => {
       console.log(response.data)
     })
   })
+  
   return(
     <div>
       <h2>Search Country</h2 >
       <form>
         <input type="search" placeholder="Type here to search" value={searchField} onChange={handleSearchInput}/>
       </form>
+      <h2>Display Country</h2>
+      
+      <CountriesList countries={countries} searchField={searchField}/>
     </div>
   )
 }
