@@ -13,16 +13,17 @@ const Countries = ({countryName}) => {
   )
 }
 
-const CountriesList = ({countries,searchField}) => {
+const CountriesList = ({countries,searchField,setCountries}) => {
   const filtered = countries.filter(country => country.name.toLowerCase().includes(searchField.toLowerCase()))
 
   const countryList = countries.map(country => country.name)
 
   const countryToDisplay = searchField.trim() ? filtered : countryList
-
+ 
   return(
       <>
         {
+          countryToDisplay.length >= 10 ? "Too many matches, specify another filter" :
           countryToDisplay.map(country => <Countries countryName={country.name}/>)
         }
       </>
@@ -56,7 +57,7 @@ const App = () => {
       </form>
       <h2>Display Country</h2>
       
-      <CountriesList countries={countries} searchField={searchField}/>
+      <CountriesList countries={countries} searchField={searchField} setCountries={setCountries}/>
     </div>
   )
 }
