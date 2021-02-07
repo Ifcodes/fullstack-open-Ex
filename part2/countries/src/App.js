@@ -7,25 +7,62 @@ import axios from 'axios'
 const Countries = ({countryName}) => {
  
   return(
-    <p>
-      {countryName}
-    </p>
+    <> 
+      <p>
+        {countryName}
+      </p>
+    </>
+  )
+}
+const Country = ({countryName,countryCapital,countryPopu,countryLang, countryImg}) => {
+ 
+  return(
+    <> 
+      <h1>
+        {countryName}
+      </h1>
+      <p>
+        Capital: {countryCapital}
+      </p>
+      <p>
+        Population: {countryPopu}
+      </p>
+      <p>
+        Languages: 
+        <ul>
+          {countryLang.map(lang => <li>{lang.name}</li>)}
+        </ul>
+      </p>
+      <img src={countryImg} alt={countryName}/>
+    </>
   )
 }
 
 const CountriesList = ({countries,searchField,setCountries}) => {
   const filtered = countries.filter(country => country.name.toLowerCase().includes(searchField.toLowerCase()))
 
-  const countryList = countries.map(country => country.name)
+  const countryNameList = countries.map(country => country.name)
 
-  const countryToDisplay = searchField.trim() ? filtered : countryList
+  const countryToDisplay = searchField.trim() ? filtered : countryNameList
+
+  // const langArr = countries.map(country => country.languages)
+  
+  // const countryLang = langArr.find(lang => lang.name)
+
+  
+  const oneCountry = countryToDisplay.map(country => <Country countryName={country.name} countryCapital={country.capital} countryPopu={country.population} countryLang={country.languages} countryImg={country.flag}/>)
+
+  const multiCountries = countryToDisplay.map(country => <Countries countryName={country.name}/>)
+
+  const showCountries = countryToDisplay.length >= 10 ? "Too many matches, specify another filter" : countryToDisplay.length === 1 ? oneCountry : multiCountries
+
+  
+  // const countryLang = langArr.map(lang => lang.name)
+  // console.log(langArr)
  
   return(
       <>
-        {
-          countryToDisplay.length >= 10 ? "Too many matches, specify another filter" :
-          countryToDisplay.map(country => <Countries countryName={country.name}/>)
-        }
+        {showCountries}
       </>
   )
 }
