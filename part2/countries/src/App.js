@@ -33,7 +33,7 @@ const Country = ({countryName,countryCapital,countryPopu,countryLang, countryImg
           {countryLang.map(lang => <li>{lang.name}</li>)}
         </ul>
       </p>
-      <img src={countryImg} alt={countryName}/>
+      <img src={countryImg} alt={countryName} width="100"/>
     </>
   )
 }
