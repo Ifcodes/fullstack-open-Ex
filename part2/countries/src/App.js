@@ -1,58 +1,86 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-// const Search = () => {
+// const Show = ({countryName, countryCapital, countryPopu, countryLang, countryImg, oneCountry}) => {
 
+//   const handleShow = () => {
+//     return oneCountry
+//   }
+//   return (
+//     <> 
+//     <h1>
+//       {countryName}
+//       <button onClick={handleShow}>Show</button>
+//     </h1>
+//   </>
+//   )
 // }
-const Countries = ({countryName}) => {
- 
+
+// const showCountry = (alpha3Code) {
+
+// } 
+const Countries = ({country,setSelectedCountry}) => {
+
   return(
     <> 
-      <p>
-        {countryName}
+      <p key={country.alpha3Code}>
+        {country.name}
       </p>
+      <button onClick={() => setSelectedCountry([country])}>Show</button>
     </>
   )
 }
-const Country = ({countryName,countryCapital,countryPopu,countryLang, countryImg}) => {
+const Country = ({country, setSelectedCountry}) => {
  
   return(
     <> 
+      <button onClick={() => setSelectedCountry([])}>Back</button>
       <h1>
-        {countryName}
+        {country.name}
+        {/* <button onClick={handleShow}>Show</button> */}
       </h1>
       <p>
-        Capital: {countryCapital}
+        Capital: {country.capital}
       </p>
       <p>
-        Population: {countryPopu}
+        Population: {country.population}
       </p>
-      <p>
+      <h3>
         Languages: 
+      </h3>
         <ul>
-          {countryLang.map(lang => <li>{lang.name}</li>)}
+          {country.languages.map((lang, langIndex) => <li key={`${country.alpha3Code}_lang-${langIndex}`}>{lang.name}</li>)}
         </ul>
-      </p>
-      <img src={countryImg} alt={countryName} width="100"/>
+      
+      <img src={country.flag} alt={country.name} width="100"/>
     </>
   )
 }
 
-const CountriesList = ({countries,searchField,setCountries}) => {
+const CountriesList = ({countries,searchField}) => {
+  const [selectedCountry, setSelectedCountry] = useState([])
+
   const filtered = countries.filter(country => country.name.toLowerCase().includes(searchField.toLowerCase()))
 
   const countryNameList = countries.map(country => country.name)
 
   const countryToDisplay = searchField.trim() ? filtered : countryNameList
-
-  // const langArr = countries.map(country => country.languages)
   
-  // const countryLang = langArr.find(lang => lang.name)
+  // const alpha3Code = (alpha) => {
+  //   countries.forEach(country => country.alpha3Code === alpha ? setSelectedCountry({state: true}) : country)
+  // } 
+  // const handleShow = () => {
+  //   return oneCountry
+  // }
+
+  const oneCountry = countryToDisplay.map(country => <Country key={country.alpha3Code} country={country}/>)
 
   
-  const oneCountry = countryToDisplay.map(country => <Country countryName={country.name} countryCapital={country.capital} countryPopu={country.population} countryLang={country.languages} countryImg={country.flag}/>)
+  const multiCountries = countryToDisplay.map(country => <Countries key={country.alpha3Code} country={country} setSelectedCountry={setSelectedCountry} />)
+  
+ 
 
-  const multiCountries = countryToDisplay.map(country => <Countries countryName={country.name}/>)
+  // const selectedCountry = <Show oneCountry={oneCountry}/>
 
   const showCountries = countryToDisplay.length >= 10 ? "Too many matches, specify another filter" : countryToDisplay.length === 1 ? oneCountry : multiCountries
 
@@ -62,7 +90,7 @@ const CountriesList = ({countries,searchField,setCountries}) => {
  
   return(
       <>
-        {showCountries}
+        {!selectedCountry.length ? showCountries : <Country country={selectedCountry[0]} setSelectedCountry={setSelectedCountry}/>}
       </>
   )
 }
@@ -70,6 +98,7 @@ const App = () => {
 
   const [searchField, setSearchField] = useState('')
   const [countries, setCountries] = useState([])
+  
 
   const handleSearchInput = (event) =>{
     setSearchField(event.target.value)
