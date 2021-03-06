@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"env@^0.0.2":
+  "integrity" "sha1-UMGfMHsSmkWEW2tobfWzndQNHPA="
+  "resolved" "https://registry.npmjs.org/env/-/env-0.0.2.tgz"
+  "version" "0.0.2"
+
 "yarn@^1.22.10":
   "integrity" "sha512-IanQGI9RRPAN87VGTF7zs2uxkSyQSrSPsju0COgbsKQOOXr5LtcVPeyXWgwVa0ywG3d8dg6kSYKGBuYK021qeA=="
   "resolved" "https://registry.npmjs.org/yarn/-/yarn-1.22.10.tgz"

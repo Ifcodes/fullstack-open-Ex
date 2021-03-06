@@ -1,24 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-// const Show = ({countryName, countryCapital, countryPopu, countryLang, countryImg, oneCountry}) => {
+const weatherApiKey = process.env.REACT_APP_WEATHERSTACK_KEY
 
-//   const handleShow = () => {
-//     return oneCountry
-//   }
-//   return (
-//     <> 
-//     <h1>
-//       {countryName}
-//       <button onClick={handleShow}>Show</button>
-//     </h1>
-//   </>
-//   )
-// }
-
-// const showCountry = (alpha3Code) {
-
-// } 
 const Countries = ({country,setSelectedCountry}) => {
 
   return(
@@ -31,28 +15,40 @@ const Countries = ({country,setSelectedCountry}) => {
   )
 }
 const Country = ({country, setSelectedCountry}) => {
- 
+  const [weather, setWeather] = useState("")
+
+  useEffect(() => {
+      axios.get(`http://api.weatherstack.com/current?access_key=${weatherApiKey}&query=${country.capital}`)
+      .then((response) => {
+        console.log("weather",response)
+        setWeather(response.data)
+      })
+  },[country.capital])
+
   return(
     <> 
       <button onClick={() => setSelectedCountry([])}>Back</button>
-      <h1>
-        {country.name}
-        {/* <button onClick={handleShow}>Show</button> */}
-      </h1>
-      <p>
-        Capital: {country.capital}
-      </p>
-      <p>
-        Population: {country.population}
-      </p>
-      <h3>
-        Languages: 
-      </h3>
-        <ul>
-          {country.languages.map((lang, langIndex) => <li key={`${country.alpha3Code}_lang-${langIndex}`}>{lang.name}</li>)}
-        </ul>
-      
+      <h1>{country.name}</h1>
+      <p> Capital: {country.capital} </p>
+      <p> Population: {country.population}</p>
+      <h3>Languages:</h3>
+      <ul>
+        {country.languages.map((lang, langIndex) => <li key={`${country.alpha3Code}_lang-${langIndex}`}>{lang.name}</li>)}
+      </ul>
       <img src={country.flag} alt={country.name} width="100"/>
+      {weather && (
+        <div>
+          <h3>Weather in {country.capital}</h3>
+          <p>Temperature: {weather.current.temperature}<sup>o</sup> celcius</p>
+          <img src={weather.current.weather_icons} alt="weather-icon"/>
+          <p>
+            Wind: {weather.current.wind_speed} mph 
+          </p>
+          <p>
+            Wind Direction: {weather.current.wind_dir}
+          </p>
+        </div>
+      )}
     </>
   )
 }
@@ -65,29 +61,14 @@ const CountriesList = ({countries,searchField}) => {
   const countryNameList = countries.map(country => country.name)
 
   const countryToDisplay = searchField.trim() ? filtered : countryNameList
-  
-  // const alpha3Code = (alpha) => {
-  //   countries.forEach(country => country.alpha3Code === alpha ? setSelectedCountry({state: true}) : country)
-  // } 
-  // const handleShow = () => {
-  //   return oneCountry
-  // }
 
   const oneCountry = countryToDisplay.map(country => <Country key={country.alpha3Code} country={country}/>)
 
   
   const multiCountries = countryToDisplay.map(country => <Countries key={country.alpha3Code} country={country} setSelectedCountry={setSelectedCountry} />)
-  
- 
-
-  // const selectedCountry = <Show oneCountry={oneCountry}/>
 
   const showCountries = countryToDisplay.length >= 10 ? "Too many matches, specify another filter" : countryToDisplay.length === 1 ? oneCountry : multiCountries
 
-  
-  // const countryLang = langArr.map(lang => lang.name)
-  // console.log(langArr)
- 
   return(
       <>
         {!selectedCountry.length ? showCountries : <Country country={selectedCountry[0]} setSelectedCountry={setSelectedCountry}/>}
