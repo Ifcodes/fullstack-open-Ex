@@ -1,56 +1,6 @@
 {
   "persons": [
     {
-      "id": 1,
-      "name": "Arto Hellas",
-      "phoneNumber": "+2348102228633"
-    },
-    {
-      "id": 2,
-      "name": "William Bernard",
-      "phoneNumber": "+2348126149668"
-    },
-    {
-      "id": 3,
-      "name": "Diana Bernard",
-      "phoneNumber": "+2348183764788"
-    },
-    {
-      "id": 4,
-      "name": "Dwayne Johnson",
-      "phoneNumber": "+2348138747389"
-    },
-    {
-      "name": "desmond",
-      "id": 5,
-      "phoneNumber": "8387476384"
-    },
-    {
-      "name": "desmond bernard",
-      "id": 6,
-      "phoneNumber": "948783393"
-    },
-    {
-      "name": "bernard diana",
-      "id": 7,
-      "phoneNumber": "938747384739"
-    },
-    {
-      "name": "Dele Momodu",
-      "id": 8,
-      "phoneNumber": "387483374839"
-    },
-    {
-      "name": "Dele Mom",
-      "id": 9,
-      "phoneNumber": "9384839"
-    },
-    {
-      "name": "des",
-      "id": 10,
-      "phoneNumber": "7667765667"
-    },
-    {
       "name": "dev wale",
       "id": 11,
       "phoneNumber": "987473874738"
@@ -68,12 +18,27 @@
     {
       "name": "kelvin harts",
       "id": 14,
-      "phoneNumber": "834743902948"
+      "phoneNumber": "009383898857"
     },
     {
       "name": " dele",
       "id": 15,
       "phoneNumber": "8387483"
+    },
+    {
+      "name": "biodun",
+      "id": 6,
+      "phoneNumber": "08102228633"
+    },
+    {
+      "name": "dele",
+      "id": 7,
+      "phoneNumber": "009383892"
+    },
+    {
+      "name": "walex",
+      "id": 8,
+      "phoneNumber": "9398494948 "
     }
   ]
 }
