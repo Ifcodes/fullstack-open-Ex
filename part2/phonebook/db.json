@@ -1,34 +1,14 @@
 {
   "persons": [
     {
-      "name": "dev wale",
-      "id": 11,
-      "phoneNumber": "987473874738"
-    },
-    {
-      "name": "abdyl",
+      "name": "Kunle",
       "id": 12,
       "phoneNumber": "9398494948"
-    },
-    {
-      "name": "daniel",
-      "id": 13,
-      "phoneNumber": "838474783847"
-    },
-    {
-      "name": "kelvin harts",
-      "id": 14,
-      "phoneNumber": "009383898857"
     },
     {
       "name": " dele",
       "id": 15,
       "phoneNumber": "8387483"
-    },
-    {
-      "name": "biodun",
-      "id": 6,
-      "phoneNumber": "08102228633"
     },
     {
       "name": "dele",
@@ -39,6 +19,16 @@
       "name": "walex",
       "id": 8,
       "phoneNumber": "9398494948 "
+    },
+    {
+      "name": "francis",
+      "id": 9,
+      "phoneNumber": "938474938439"
+    },
+    {
+      "name": "bryan",
+      "id": 10,
+      "phoneNumber": "938434833949"
     }
   ]
 }

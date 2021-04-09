@@ -8,6 +8,7 @@ const AddContact = ({
   setNumber,
   newNumber,
   persons,
+  setNotification,
 }) => {
   const handleNewNames = (event) => {
     setNewName(event.target.value);
@@ -33,38 +34,65 @@ const AddContact = ({
   };
 
   const updateNumber = (person) => {
-    // const numberToUpdate = persons;
     const numberUpdate = { ...person, phoneNumber: newNumber };
 
-    phoneService.update(person.id, numberUpdate).then((response) =>
-      setPersons((persons) =>
-        persons.map((p) => {
-          if (person.id === p.id) return numberUpdate;
-          return p;
-        })
-      )
-    );
+    phoneService
+      .update(person.id, numberUpdate)
+      .then((response) => {
+        setPersons((persons) =>
+          persons.map((p) => {
+            if (person.id === p.id) return numberUpdate;
+            return p;
+          })
+        );
+        setNotification(`Number changed successfully to ${newNumber}`);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      })
+      .catch((error) => {
+        setNotification(
+          `Information of ${person.name} has already been removed from server`
+        );
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      });
   };
 
   const updateName = (person) => {
-    // const numberToUpdate = persons;
     const nameUpdate = { ...person, name: newName };
 
-    phoneService.update(person.id, nameUpdate).then((response) =>
-      setPersons((persons) =>
-        persons.map((p) => {
-          if (person.id === p.id) return nameUpdate;
-          return p;
-        })
-      )
-    );
+    phoneService
+      .update(person.id, nameUpdate)
+      .then((response) => {
+        setPersons((persons) =>
+          persons.map((p) => {
+            if (person.id === p.id) return nameUpdate;
+            return p;
+          })
+        );
+        setNotification(`Name changed successfully to ${newName}`);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      })
+      .catch((error) => {
+        setNotification(
+          `Information of ${person.name} has already been removed from server`
+        );
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      });
   };
 
   const checkAddContact = (event) => {
     event.preventDefault();
-    const nameTest = newName.toLowerCase();
+
+    const checkNewName = newName.toLowerCase();
     const personExist = persons.find(
-      (person) => person.name.toLowerCase() === nameTest
+      (person) => person.name.toLowerCase() === checkNewName
     );
     const numberExist = persons.find(
       (person) => person.phoneNumber === newNumber

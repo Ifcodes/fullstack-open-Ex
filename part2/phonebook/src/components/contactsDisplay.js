@@ -15,7 +15,7 @@ const ContactName = (props) => {
   );
 };
 
-const ContactList = ({ nameFilter, persons, setPersons }) => {
+const ContactList = ({ nameFilter, persons, setPersons, setNotification }) => {
   const filtered = () => {
     const filteredPerson = persons.filter((person) =>
       person.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -28,9 +28,19 @@ const ContactList = ({ nameFilter, persons, setPersons }) => {
   const handledelete = (id) => {
     const contactToDel = persons.find((person) => person.id === id);
     if (window.confirm(`Delete ${contactToDel.name}?`)) {
-      phoneService.del(id, contactToDel).then((response) => {
-        setPersons(persons.filter((person) => person.id !== id));
-      });
+      phoneService
+        .del(id, contactToDel)
+        .then((response) => {
+          setPersons(persons.filter((person) => person.id !== id));
+        })
+        .catch((error) => {
+          setNotification(
+            `Information of ${contactToDel.name} has already been removed from server`
+          );
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
+        });
     }
   };
   return (
