@@ -7,9 +7,9 @@ const Filter = ({nameFilter, setNameFilter, persons}) =>{
   }
   
   return (
-    <form>
+    <form className='searchForm'>
       <h2>Search Contact</h2>
-      <input type="search" placeholder="Type to search" value={nameFilter} onChange={handleNameFilter}/>
+      <input type="search" placeholder="Type to search" value={nameFilter} onChange={handleNameFilter} className='search'/>
     </form>
   )
 }

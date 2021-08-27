@@ -22,21 +22,39 @@ const AddContact = ({
     const addName = {
       name: newName,
       id: persons.length + 1,
-      phoneNumber: newNumber,
+      number: `${newNumber}`,
     };
-    phoneService.create(addName).then((response) => {
-      setNewName("");
-      setNumber("");
-    });
-    phoneService.getAll().then((response) => {
-      setPersons(response.data);
-    });
+
+    phoneService
+      .create(addName)
+      .then((response) => {
+        setNewName("");
+        setNumber("");
+        setNotification("Contact added successfully");
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      })
+      .catch((error) => {
+        console.log(error.response.data.error);
+        setNotification(error.response.data.error);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      });
   };
 
   const updateNumber = (person) => {
-    const numberUpdate = { ...person, phoneNumber: newNumber };
 
-    phoneService
+    const nameExist = person.name === newName
+    const numberExist = person.number === newNumber
+
+    const numberUpdate = {...person, number: newNumber};
+    const nameUpdate = { ...person, name: newName};
+
+    if(nameExist){
+
+      phoneService
       .update(person.id, numberUpdate)
       .then((response) => {
         setPersons((persons) =>
@@ -44,26 +62,23 @@ const AddContact = ({
             if (person.id === p.id) return numberUpdate;
             return p;
           })
-        );
-        setNotification(`Number changed successfully to ${newNumber}`);
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
+        )
+        setNotification(`${person.name}'s Number changed successfully to ${newNumber}`);
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
       })
       .catch((error) => {
+        console.log(error)
         setNotification(
           `Information of ${person.name} has already been removed from server`
         );
         setTimeout(() => {
           setNotification(null);
         }, 5000);
-      });
-  };
-
-  const updateName = (person) => {
-    const nameUpdate = { ...person, name: newName };
-
-    phoneService
+      });  
+    }else if(numberExist){
+      phoneService
       .update(person.id, nameUpdate)
       .then((response) => {
         setPersons((persons) =>
@@ -71,11 +86,11 @@ const AddContact = ({
             if (person.id === p.id) return nameUpdate;
             return p;
           })
-        );
-        setNotification(`Name changed successfully to ${newName}`);
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
+        )
+        setNotification(`Name changed from ${person.name} to ${newName} successfully!`);
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
       })
       .catch((error) => {
         setNotification(
@@ -85,6 +100,7 @@ const AddContact = ({
           setNotification(null);
         }, 5000);
       });
+    }
   };
 
   const checkAddContact = (event) => {
@@ -95,7 +111,7 @@ const AddContact = ({
       (person) => person.name.toLowerCase() === checkNewName
     );
     const numberExist = persons.find(
-      (person) => person.phoneNumber === newNumber
+      (person) => person.number === newNumber
     );
 
     if (personExist) {
@@ -105,7 +121,8 @@ const AddContact = ({
         )
       ) {
         updateNumber(personExist);
-        // setNewName(" ");
+        setNewName(" ");
+        setNumber(" ");
       }
     } else if (numberExist) {
       if (
@@ -113,7 +130,7 @@ const AddContact = ({
           `PhoneNumber is already added to phonebook. Do you want to replace contact name with ${newName}?`
         )
       ) {
-        updateName(numberExist);
+        updateNumber(numberExist);
         setNewName(" ");
         setNumber(" ");
       }
@@ -122,21 +139,31 @@ const AddContact = ({
     }
   };
 
-  const styles = {
-    margin: "1rem 0",
-  };
+  // const styles = {
+  //   margin: "1rem 0",
+  // };
   return (
-    <form onSubmit={checkAddContact}>
-      <div style={styles}>
-        name: <input value={newName} onChange={handleNewNames} required />
+    <>
+      <form onSubmit={checkAddContact} className='addContactForm'>
+
+      <h2>Add New Contact</h2>
+
+      <div className='addName'>
+        <p>Name:</p>
+        <input value={newName} onChange={handleNewNames} required />
       </div>
+
+      <div className='addNumber'>
+        <p>Number:</p> 
+        <input value={newNumber} onChange={handleNumbers} required />
+      </div>
+
       <div>
-        number: <input value={newNumber} onChange={handleNumbers} required />
+        <button type="submit" className='addContactBtn'>Add</button>
       </div>
-      <div>
-        <button type="submit">Add</button>
-      </div>
-    </form>
+
+      </form> 
+    </>
   );
 };
 
