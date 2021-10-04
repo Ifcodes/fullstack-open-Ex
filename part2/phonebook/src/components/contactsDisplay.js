@@ -1,21 +1,6 @@
 import React from "react";
 import phoneService from "../services/phonebook";
-
-const ContactName = (props) => {
-  return (
-    <>
-      <div className='contact-cont'>
-        <p className='contact'>
-          {props.person} <br />
-          {props.phoneNumber}{" "}
-          <button onClick={props.handledelete}>
-            Delete
-          </button>
-        </p>
-      </div>
-    </>
-  );
-};
+import ContactName from "./contacts";
 
 const ContactList = ({ nameFilter, persons, setPersons, setNotification, user}) => {
 
@@ -51,8 +36,7 @@ const ContactList = ({ nameFilter, persons, setPersons, setNotification, user}) 
       {personToDisplay.length === 0 ? 'Contact not found' : personToDisplay.map((person) => (
         <ContactName
           key={person.id}
-          person={person.name}
-          phoneNumber={person.number}
+          person={person}
           handledelete={() => handledelete(person.id)}
         />
       ))}

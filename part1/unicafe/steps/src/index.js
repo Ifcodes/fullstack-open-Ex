@@ -32,7 +32,7 @@ const Statistic = ({text, value}) =>{
   )
 }
 const Statistics = (props) => {
-  if(props.good == 0 && props.neutral == 0 && props.bad == 0){
+  if(props.good === 0 && props.neutral === 0 && props.bad === 0){
       return (
         <div>
           <h1>Statistics</h1>
@@ -43,7 +43,7 @@ const Statistics = (props) => {
   let total = props.good + props.neutral + props.bad
   let newAv = (props.good * 1 + props.bad * -1) / total
   let positive = (props.good/total) * 100
-  let symbol = "%"
+ 
   return (
     <>
       <h1>Statistics</h1>

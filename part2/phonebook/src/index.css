@@ -92,11 +92,20 @@ input {
 .addContactBtn {
   padding: 0.7rem 7rem;
 }
-.loginForm {
+.loginForm-cont {
+  display: flex;
+  flex-direction: column;
   border: 1px solid silver;
   margin: 4rem auto;
   padding: 1rem;
   border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+}
+.lgnform {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
 }
 .phone {
   width: 20rem;
@@ -104,4 +113,14 @@ input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.cancel {
+  margin-top: 1rem;
+  background-color: blanchedalmond;
+  color: rgb(26, 139, 26);
+  padding: 0.7rem 7rem;
+}
+.loader {
+  width: 1.5rem;
+  height: 1.5rem;
 }

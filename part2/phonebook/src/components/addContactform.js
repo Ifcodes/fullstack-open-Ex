@@ -1,15 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import phoneService from "../services/phonebook";
+import loading from "../images/icons8-loading-circle.gif"
 
 const AddContact = ({
-  setNewName,
-  newName,
   setPersons,
-  setNumber,
-  newNumber,
   persons,
   setNotification,
+  createContact,
 }) => {
+   const [newName, setNewName] = useState("");
+  const [newNumber, setNumber] = useState("");
+
+  const [icon, setIcon] = useState(false)
+
   const handleNewNames = (event) => {
     setNewName(event.target.value);
   };
@@ -18,33 +21,7 @@ const AddContact = ({
     setNumber(e.target.value);
   };
 
-  const addContact = () => {
-    const addName = {
-      name: newName,
-      id: persons.length + 1,
-      number: `${newNumber}`,
-    };
-
-    phoneService
-      .create(addName)
-      .then((response) => {
-        setNewName("");
-        setNumber("");
-        setNotification("Contact added successfully");
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
-      })
-      .catch((error) => {
-        console.log(error.response.data.error);
-        setNotification(error.response.data.error);
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
-      });
-  };
-
-  const updateNumber = (person) => {
+  const updateContact = (person) => {
 
     const nameExist = person.name === newName
     const numberExist = person.number === newNumber
@@ -106,10 +83,10 @@ const AddContact = ({
   const checkAddContact = (event) => {
     event.preventDefault();
 
-    const checkNewName = newName.toLowerCase();
     const personExist = persons.find(
-      (person) => person.name.toLowerCase() === checkNewName
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
     );
+
     const numberExist = persons.find(
       (person) => person.number === newNumber
     );
@@ -120,7 +97,7 @@ const AddContact = ({
           `${newName} is already added to phonebook. Do you want to replace old number with new one?`
         )
       ) {
-        updateNumber(personExist);
+        updateContact(personExist);
         setNewName(" ");
         setNumber(" ");
       }
@@ -130,18 +107,27 @@ const AddContact = ({
           `PhoneNumber is already added to phonebook. Do you want to replace contact name with ${newName}?`
         )
       ) {
-        updateNumber(numberExist);
+        updateContact(numberExist);
         setNewName(" ");
         setNumber(" ");
       }
     } else {
-      addContact();
+      createContact({
+        name: newName,
+        id: persons.length + 1,
+        number: `${newNumber}`,
+      })
+      setNewName(" ");
+      setNumber(" ");
     }
   };
 
-  // const styles = {
-  //   margin: "1rem 0",
-  // };
+  // const addLoader = () => {
+  //   return(
+  //     <button>
+  //     </button>
+  //   )
+  // }
   return (
     <>
       <form onSubmit={checkAddContact} className='addContactForm'>
@@ -150,7 +136,7 @@ const AddContact = ({
 
       <div className='addName'>
         <p>Name:</p>
-        <input value={newName} onChange={handleNewNames} required />
+        <input value={newName} onChange={handleNewNames} required className='addNameInput'/>
       </div>
 
       <div className='addNumber'>
@@ -159,7 +145,7 @@ const AddContact = ({
       </div>
 
       <div>
-        <button type="submit" className='addContactBtn'>Add</button>
+        <button type="submit" className='addContactBtn' onClick={() => setIcon(true)}>{!icon ? "Add" :   <img src={loading} alt="loading..." className="loader"/>}</button>
       </div>
 
       </form> 

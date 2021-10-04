@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AddContact from "./components/addContactform";
 import ContactList from "./components/contactsDisplay";
 import Filter from "./components/searchComp";
@@ -6,17 +6,16 @@ import Login from "./components/login"
 import phoneService from "./services/phonebook";
 import Notifications from "./components/notification";
 import "./index.css";
+import Togglable from "./components/togglable";
 
 function App() {
   const [persons, setPersons] = useState([]);
-  const [newName, setNewName] = useState("");
-  const [newNumber, setNumber] = useState("");
   const [nameFilter, setNameFilter] = useState("");
   const [notification, setNotification] = useState(null);
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-
+  const contactRef = useRef()
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('loggedUser')
@@ -42,6 +41,25 @@ useEffect(() => {
     setPersons([])
   }
 
+  const addContact = (contactObj) => {
+    phoneService
+      .create(contactObj)
+      .then((response) => {
+        setNotification("Contact added successfully");
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      contactRef.current.toggleVisibility()
+      })
+      .catch((error) => {
+        console.log(error.response.data.error);
+        setNotification(error.response.data.error);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      });
+  };
+
   return (
     <div className='App'>
      {user === null ? '' 
@@ -51,11 +69,9 @@ useEffect(() => {
         <button onClick={handleLogout}>Logout</button>
       </div>
       }
+      <Notifications message={notification} />
       <h1>Phonebook</h1>
 
-      <Notifications message={notification} />
-
-      
       {user === null ? <Login 
         username={username}
         password={password}
@@ -67,15 +83,15 @@ useEffect(() => {
         setPersons={setPersons}
       /> : 
       <div>
-         <AddContact
-        setNewName={setNewName}
-        newName={newName}
-        setPersons={setPersons}
-        setNumber={setNumber}
-        newNumber={newNumber}
-        persons={persons}
-        setNotification={setNotification}
-        />
+        <Togglable buttonLabel="Add New Contact" ref={contactRef}>
+          <AddContact
+            setPersons={setPersons}
+            persons={persons}
+            setNotification={setNotification}
+            createContact={addContact}
+          />
+        </Togglable>
+
         <Filter
         nameFilter={nameFilter}
         setNameFilter={setNameFilter}
