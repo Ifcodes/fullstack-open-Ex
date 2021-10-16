@@ -1,4 +1,4 @@
-import { newAnecdote } from "../reducers/anecdoteReducer"
+import { asObject, newAnecdote } from "../reducers/anecdoteReducer"
 import { useDispatch } from "react-redux"
 
 
@@ -10,7 +10,7 @@ const NewAnecdote = () => {
 
     const content = e.target.anecdote.value
     e.target.anecdote.value = ''
-    dispatch(newAnecdote(content))
+    dispatch(asObject(content))
   }
   return(
     <>
