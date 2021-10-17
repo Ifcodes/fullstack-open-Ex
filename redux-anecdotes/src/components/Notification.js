@@ -12,23 +12,17 @@ const Notification = () => {
     return state.notification.note
   })
 
-  // const anecdote = useSelector(state => {
-  //   state.anecdotes.map(anec => {
-  //     if(anec.notificationHandler === true) {
-  //       dispatch(notification())
-  //     }
-  //   })
-  // })
-  
   const style = {
-    border: 'solid',
+    border: 0,
     padding: 10,
     borderWidth: 1
   }
   return (
-    <div style={style}>
-      {notification}
-    </div>
+    <>
+      <div style={style}>
+        {notification}
+      </div>
+    </>
   )
 }
 
