@@ -5,9 +5,9 @@ import { notification } from '../reducers/notificationRed'
 const AnecdoteList = () => {
   const anecdotes = useSelector(state => {
     
-    const newAnecdoteState = !state.filter.filterState ? state.anecdotes : state.anecdotes.filter(anec => anec.data.content.toLowerCase().includes(state.filter.filterState.toLowerCase()))
+    const newAnecdoteState = !state.filter.filterState ? state.anecdotes : state.anecdotes.filter(anec => anec.content.toLowerCase().includes(state.filter.filterState.toLowerCase()))
     
-    return newAnecdoteState.sort((a, b) => b.data.votes - a.data.votes)
+    return newAnecdoteState.sort((a, b) => b.votes - a.votes)
   })
   
   const dispatch = useDispatch()
@@ -23,13 +23,13 @@ const AnecdoteList = () => {
   return (
     <>
       {anecdotes.map((anecdote, index) =>
-        <div key={anecdote.data.id}>
+        <div key={anecdote.id}>
           <div>
-            {anecdote.data.content}
+            {anecdote.content}
           </div>
           <div>
-            has {anecdote.data.votes}
-            <button onClick={() => handleVotes(anecdote.data.id, `Voted ${anecdote.data.content}`)}>vote</button>
+            has {anecdote.votes}
+            <button onClick={() => handleVotes(anecdote.id, `Voted ${anecdote.content}`)}>vote</button>
           </div>
         </div>
       )}

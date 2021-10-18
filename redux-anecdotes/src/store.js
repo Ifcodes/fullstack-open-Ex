@@ -2,6 +2,7 @@ import anecdoteReducer from './reducers/anecdoteReducer'
 import notificationReducer from './reducers/notificationRed'
 import filterReducer from './reducers/filterReducer'
 import { createStore, combineReducers } from 'redux'
+import {composeWithDevTools} from 'redux-devtools-extension'
 
 const reducers = combineReducers({
   anecdotes: anecdoteReducer,
@@ -9,5 +10,5 @@ const reducers = combineReducers({
   filter: filterReducer
 })
 
-export const store = createStore(reducers)
+export const store = createStore(reducers, composeWithDevTools())
 
