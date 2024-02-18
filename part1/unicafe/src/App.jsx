@@ -31,7 +31,7 @@ function App() {
         <p>Bad {bad}</p>
         <p>Total {totalFeedbackCount}</p>
         <p>Average {averageFeedbackCount}</p>
-        <p>Percentage {percentageOfGoodFeed || 0}%</p>
+        <p>Postive Feedback {percentageOfGoodFeed || 0}%</p>
       </article>
     </>
   );
