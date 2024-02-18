@@ -12,6 +12,10 @@ function App() {
     if (type === "bad") setBad(bad + 1);
   };
 
+  const totalFeedbackCount = good + bad + neutral;
+  const averageFeedbackCount = totalFeedbackCount / 3;
+  const percentageOfGoodFeed = (good / totalFeedbackCount) * 100;
+
   return (
     <>
       <h1>Give Feedback</h1>
@@ -25,6 +29,9 @@ function App() {
         <p>Good {good}</p>
         <p>Neutral {neutral}</p>
         <p>Bad {bad}</p>
+        <p>Total {totalFeedbackCount}</p>
+        <p>Average {averageFeedbackCount}</p>
+        <p>Percentage {percentageOfGoodFeed || 0}%</p>
       </article>
     </>
   );
