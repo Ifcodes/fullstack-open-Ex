@@ -33,18 +33,22 @@ function App() {
         <button onClick={() => handleFeedbackCount("neutral")}>Neutral</button>
         <button onClick={() => handleFeedbackCount("bad")}>Bad</button>
       </div>
-      <article>
-        <h2>Statistics</h2>
-        <Statistics text="Good" value={good} />
-        <Statistics text="Neutral" value={neutral} />
-        <Statistics text="bad" value={bad} />
-        <Statistics text="Total" value={totalFeedbackCount} />
-        <Statistics text="Average" value={averageFeedbackCount} />
-        <Statistics
-          text="Positive Feedback"
-          value={percentageOfGoodFeed || 0}
-        />
-      </article>
+      <h2>Statistics</h2>
+      {totalFeedbackCount > 0 ? (
+        <article>
+          <Statistics text="Good" value={good} />
+          <Statistics text="Neutral" value={neutral} />
+          <Statistics text="bad" value={bad} />
+          <Statistics text="Total" value={totalFeedbackCount} />
+          <Statistics text="Average" value={averageFeedbackCount} />
+          <Statistics
+            text="Positive Feedback"
+            value={percentageOfGoodFeed || 0}
+          />
+        </article>
+      ) : (
+        <span>No feedback given</span>
+      )}
     </>
   );
 }
