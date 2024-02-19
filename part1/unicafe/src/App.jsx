@@ -54,7 +54,7 @@ function App() {
             <Statistics text="Total" value={totalFeedbackCount} />
             <Statistics text="Average" value={averageFeedbackCount} />
             <Statistics
-              text="Positive Feedback"
+              text="Positive"
               value={`${percentageOfGoodFeed || 0}%`}
             />
           </tbody>
