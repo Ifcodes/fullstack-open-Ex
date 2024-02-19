@@ -1,6 +1,15 @@
 import { useState } from "react";
 import "./App.css";
 
+const Statistics = ({ text, value }) => {
+  return (
+    <div>
+      <strong>{text}</strong>
+      <span> {value}</span>
+    </div>
+  );
+};
+
 function App() {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
@@ -26,12 +35,15 @@ function App() {
       </div>
       <article>
         <h2>Statistics</h2>
-        <p>Good {good}</p>
-        <p>Neutral {neutral}</p>
-        <p>Bad {bad}</p>
-        <p>Total {totalFeedbackCount}</p>
-        <p>Average {averageFeedbackCount}</p>
-        <p>Postive Feedback {percentageOfGoodFeed || 0}%</p>
+        <Statistics text="Good" value={good} />
+        <Statistics text="Neutral" value={neutral} />
+        <Statistics text="bad" value={bad} />
+        <Statistics text="Total" value={totalFeedbackCount} />
+        <Statistics text="Average" value={averageFeedbackCount} />
+        <Statistics
+          text="Positive Feedback"
+          value={percentageOfGoodFeed || 0}
+        />
       </article>
     </>
   );
