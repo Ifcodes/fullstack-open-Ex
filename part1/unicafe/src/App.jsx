@@ -3,10 +3,14 @@ import "./App.css";
 
 const Statistics = ({ text, value }) => {
   return (
-    <div>
-      <strong>{text}</strong>
-      <span> {value}</span>
-    </div>
+    <tr>
+      <td align="left">
+        <strong>{text}</strong>
+      </td>
+      <td align="left">
+        <strong>{value}</strong>
+      </td>
+    </tr>
   );
 };
 
@@ -42,17 +46,19 @@ function App() {
       </div>
       <h2>Statistics</h2>
       {totalFeedbackCount > 0 ? (
-        <article>
-          <Statistics text="Good" value={good} />
-          <Statistics text="Neutral" value={neutral} />
-          <Statistics text="bad" value={bad} />
-          <Statistics text="Total" value={totalFeedbackCount} />
-          <Statistics text="Average" value={averageFeedbackCount} />
-          <Statistics
-            text="Positive Feedback"
-            value={`${percentageOfGoodFeed || 0}%`}
-          />
-        </article>
+        <table cellPadding={4}>
+          <tbody>
+            <Statistics text="Good" value={good} />
+            <Statistics text="Neutral" value={neutral} />
+            <Statistics text="bad" value={bad} />
+            <Statistics text="Total" value={totalFeedbackCount} />
+            <Statistics text="Average" value={averageFeedbackCount} />
+            <Statistics
+              text="Positive Feedback"
+              value={`${percentageOfGoodFeed || 0}%`}
+            />
+          </tbody>
+        </table>
       ) : (
         <span>No feedback given</span>
       )}
