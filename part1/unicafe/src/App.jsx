@@ -10,6 +10,10 @@ const Statistics = ({ text, value }) => {
   );
 };
 
+const Button = ({ text, handleClick }) => {
+  return <button onClick={handleClick}>{text}</button>;
+};
+
 function App() {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
@@ -29,9 +33,12 @@ function App() {
     <>
       <h1>Give Feedback</h1>
       <div>
-        <button onClick={() => handleFeedbackCount("good")}>Good</button>
-        <button onClick={() => handleFeedbackCount("neutral")}>Neutral</button>
-        <button onClick={() => handleFeedbackCount("bad")}>Bad</button>
+        <Button text="Good" handleClick={() => handleFeedbackCount("good")} />
+        <Button
+          text="Neutral"
+          handleClick={() => handleFeedbackCount("neutral")}
+        />
+        <Button text="Bad" handleClick={() => handleFeedbackCount("bad")} />
       </div>
       <h2>Statistics</h2>
       {totalFeedbackCount > 0 ? (
@@ -43,7 +50,7 @@ function App() {
           <Statistics text="Average" value={averageFeedbackCount} />
           <Statistics
             text="Positive Feedback"
-            value={percentageOfGoodFeed || 0}
+            value={`${percentageOfGoodFeed || 0}%`}
           />
         </article>
       ) : (
