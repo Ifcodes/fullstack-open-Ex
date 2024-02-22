@@ -5,7 +5,7 @@ const Content = (props) => {
   return (
     <div>
       {props.parts.map((part) => (
-        <Part key={part.name} part={part.name} exercises={part.exercises} />
+        <Part key={part.id} part={part.name} exercises={part.exercises} />
       ))}
     </div>
   );
