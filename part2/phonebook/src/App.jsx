@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import axios from "axios";
 
 function App() {
   const [persons, setPersons] = useState([
@@ -43,6 +44,13 @@ function App() {
     setPersons(persons.concat(data));
   };
 
+  const getPersons = async () => {
+    const pers = await axios.get("localhost:30001/persons");
+
+    setPersons(pers.data);
+  };
+
+  useEffect(() => getPersons(), []);
   const filteredPersonsList = searchField
     ? persons.filter((person) =>
         person.name.toLowerCase().includes(searchField.toLowerCase())
