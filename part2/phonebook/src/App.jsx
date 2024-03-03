@@ -44,13 +44,14 @@ function App() {
     setPersons(persons.concat(data));
   };
 
-  const getPersons = async () => {
-    const pers = await axios.get("localhost:30001/persons");
-
-    setPersons(pers.data);
+  const getPersons = () => {
+    axios.get("http://localhost:3001/persons").then((res) => {
+      setPersons(res.data);
+    });
   };
 
-  useEffect(() => getPersons(), []);
+  useEffect(getPersons, []);
+
   const filteredPersonsList = searchField
     ? persons.filter((person) =>
         person.name.toLowerCase().includes(searchField.toLowerCase())
