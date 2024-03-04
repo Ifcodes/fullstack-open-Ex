@@ -4,6 +4,7 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import axios from "axios";
+import phonebookServices from "./services/persons";
 
 function App() {
   const [persons, setPersons] = useState([
@@ -41,7 +42,12 @@ function App() {
       id: persons.length + 1,
     };
 
-    setPersons(persons.concat(data));
+    phonebookServices
+      .createContact(data)
+      .then((res) => {
+        setPersons(persons.concat(res.data));
+      })
+      .catch((err) => console.log(err));
   };
 
   const getPersons = () => {
