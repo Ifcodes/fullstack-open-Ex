@@ -12,6 +12,14 @@ function App() {
   const [newNumber, setNewNumber] = useState("");
   const [searchField, setSearchField] = useState("");
 
+  const getPersons = () => {
+    axios.get("http://localhost:3001/persons").then((res) => {
+      setPersons(res.data);
+    });
+  };
+
+  useEffect(getPersons, []);
+
   const handleChange = (event) => {
     const name = event.target.name;
 
@@ -46,13 +54,17 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const getPersons = () => {
-    axios.get("http://localhost:3001/persons").then((res) => {
-      setPersons(res.data);
-    });
+  const handleDelete = (id) => () => {
+    if (window.confirm("Are you sure you want to delete?")) {
+      phonebookServices
+        .deleteContact(id)
+        .then((res) => {
+          console.log({ res });
+          getPersons();
+        })
+        .catch((err) => console.log({ err }));
+    }
   };
-
-  useEffect(getPersons, []);
 
   const filteredPersonsList = searchField
     ? persons.filter((person) =>
@@ -71,7 +83,10 @@ function App() {
         handleSubmit={handleSubmit}
       />
       <h2>Numbers</h2>
-      <Persons filteredPersonsList={filteredPersonsList} />
+      <Persons
+        filteredPersonsList={filteredPersonsList}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }

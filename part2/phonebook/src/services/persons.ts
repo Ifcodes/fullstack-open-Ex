@@ -13,7 +13,13 @@ const createContact = (data) => {
   return response.then((res) => res.data);
 };
 
+const deleteContact = (id) => {
+  const response = axios.delete(`${baseUrl}/${id}`);
+  return response.then((res) => console.log({ res }));
+};
+
 export default {
   getContacts,
   createContact,
+  deleteContact,
 };
