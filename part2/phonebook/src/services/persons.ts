@@ -13,6 +13,14 @@ const createContact = (data) => {
   return response.then((res) => res.data);
 };
 
+const updateContact = (data) => {
+  const response = axios
+    .put(`${baseUrl}/${data.id}`, data)
+    .then((res) => res.data);
+
+  return response;
+};
+
 const deleteContact = (id) => {
   const response = axios.delete(`${baseUrl}/${id}`);
   return response.then((res) => console.log({ res }));
@@ -22,4 +30,5 @@ export default {
   getContacts,
   createContact,
   deleteContact,
+  updateContact,
 };

@@ -32,23 +32,62 @@ function App() {
     }
   };
 
+  const updateContact = (data) => {
+    phonebookServices.updateContact(data).then((res) => {
+      setNewName("");
+      setNewNumber("");
+      const updatedContact = persons.find((person) => person.id === res.id);
+      setPersons(
+        persons.map((person) => {
+          if (person.id === updatedContact.id) {
+            return {
+              ...person,
+              ...res,
+            };
+          }
+          return person;
+        })
+      );
+    });
+  };
+
+  const generateId = () => {
+    return Math.random().toString(32).substring(1, 8);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const nameExists = persons.find((person) => person.name === newName);
-
-    if (nameExists) return alert(`${newName} is already added to phonebook`);
+    const nameExists = persons.find(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
+    );
 
     const data = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
+      id: generateId(),
     };
+
+    if (nameExists && nameExists.number !== newNumber) {
+      if (
+        window.confirm(
+          `${nameExists.name} is already added to phonebook, replace old number with ${newNumber}?`
+        )
+      ) {
+        const dataToUpdate = {
+          ...nameExists,
+          number: newNumber,
+        };
+        updateContact(dataToUpdate);
+        return;
+      }
+    }
 
     phonebookServices
       .createContact(data)
       .then((res) => {
-        console.log({ res });
+        setNewName("");
+        setNewNumber("");
         setPersons(persons.concat(res));
       })
       .catch((err) => console.log(err));
