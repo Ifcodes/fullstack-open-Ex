@@ -5,17 +5,36 @@ import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import axios from "axios";
 import phonebookServices from "./services/persons";
+import Notification from "./components/Notification";
 
 function App() {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchField, setSearchField] = useState("");
+  const [notification, setNotification] = useState({
+    type: "",
+    message: "",
+  });
 
   const getPersons = () => {
     axios.get("http://localhost:3001/persons").then((res) => {
       setPersons(res.data);
     });
+  };
+
+  const handleNotification = (message, type) => {
+    setNotification({
+      type,
+      message,
+    });
+
+    setTimeout(() => {
+      setNotification({
+        type: "",
+        message: "",
+      });
+    }, 3000);
   };
 
   useEffect(getPersons, []);
@@ -33,22 +52,31 @@ function App() {
   };
 
   const updateContact = (data) => {
-    phonebookServices.updateContact(data).then((res) => {
-      setNewName("");
-      setNewNumber("");
-      const updatedContact = persons.find((person) => person.id === res.id);
-      setPersons(
-        persons.map((person) => {
-          if (person.id === updatedContact.id) {
-            return {
-              ...person,
-              ...res,
-            };
-          }
-          return person;
-        })
-      );
-    });
+    phonebookServices
+      .updateContact(data)
+      .then((res) => {
+        setNewName("");
+        setNewNumber("");
+        const updatedContact = persons.find((person) => person.id === res.id);
+        setPersons(
+          persons.map((person) => {
+            if (person.id === updatedContact.id) {
+              return {
+                ...person,
+                ...res,
+              };
+            }
+            return person;
+          })
+        );
+        handleNotification(
+          `${res.name} has been updated successfully`,
+          "success"
+        );
+      })
+      .catch((err) => {
+        handleNotification(`Failed to update. ${err.message}`, "error");
+      });
   };
 
   const generateId = () => {
@@ -89,8 +117,15 @@ function App() {
         setNewName("");
         setNewNumber("");
         setPersons(persons.concat(res));
+        handleNotification(
+          `${res.name} has been added successfully`,
+          "success"
+        );
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        handleNotification(`Failed to create!`, "error");
+        console.log(err);
+      });
   };
 
   const handleDelete = (id) => () => {
@@ -98,10 +133,17 @@ function App() {
       phonebookServices
         .deleteContact(id)
         .then((res) => {
-          console.log({ res });
-          getPersons();
+          const filteredPersons = persons.filter((p) => p.id !== res.id);
+          setPersons(filteredPersons);
+          handleNotification(`Contact has been deleted successfully.`, "error");
         })
-        .catch((err) => console.log({ err }));
+        .catch((err) => {
+          console.log({ err });
+          if (err.status === 404) {
+            alert(`Contact does not exist`);
+            handleNotification(`Selected contact does not exist.`, "error");
+          }
+        });
     }
   };
 
@@ -114,6 +156,7 @@ function App() {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification.message} type={notification.type} />
       <Filter searchField={searchField} setSearchField={setSearchField} />
       <PersonForm
         newName={newName}

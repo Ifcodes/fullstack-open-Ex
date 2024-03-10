@@ -8,7 +8,6 @@ const getContacts = () => {
 };
 
 const createContact = (data) => {
-  console.log(data);
   const response = axios.post(baseUrl, data);
   return response.then((res) => res.data);
 };
@@ -23,7 +22,7 @@ const updateContact = (data) => {
 
 const deleteContact = (id) => {
   const response = axios.delete(`${baseUrl}/${id}`);
-  return response.then((res) => console.log({ res }));
+  return response.then((res) => res.data);
 };
 
 export default {
