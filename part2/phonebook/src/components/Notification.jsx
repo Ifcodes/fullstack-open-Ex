@@ -5,8 +5,8 @@ const Notification = ({ message, type }) => {
     width: "100%",
     padding: "8px 16px",
     borderRadius: "8px",
-    color: "green",
-    border: "1px solid green",
+    color: "red",
+    border: "1px solid red",
     marginBottom: "1rem",
   };
 

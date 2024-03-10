@@ -135,12 +135,14 @@ function App() {
         .then((res) => {
           const filteredPersons = persons.filter((p) => p.id !== res.id);
           setPersons(filteredPersons);
-          handleNotification(`Contact has been deleted successfully.`, "error");
+          handleNotification(
+            `Contact has been deleted successfully.`,
+            "success"
+          );
         })
         .catch((err) => {
           console.log({ err });
-          if (err.status === 404) {
-            alert(`Contact does not exist`);
+          if (err?.response?.status === 404) {
             handleNotification(`Selected contact does not exist.`, "error");
           }
         });
