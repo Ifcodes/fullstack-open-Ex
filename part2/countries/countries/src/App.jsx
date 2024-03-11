@@ -45,6 +45,8 @@ function App() {
           capital={selectedCountry.capital[0]}
           languages={Object.values(selectedCountry.languages)}
           flagUrl={selectedCountry.flags.svg}
+          lon={selectedCountry.capitalInfo.latlng[1]}
+          lat={selectedCountry.capitalInfo.latlng[0]}
         />
       ) : (
         <Countries

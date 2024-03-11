@@ -14,6 +14,8 @@ const Countries = ({ countries, handleShowCountry }) => {
         capital={country.capital[0]}
         languages={Object.values(country.languages)}
         flagUrl={country.flags.svg}
+        lon={country.capitalInfo.latlng[1]}
+        lat={country.capitalInfo.latlng[0]}
       />
     );
   }
