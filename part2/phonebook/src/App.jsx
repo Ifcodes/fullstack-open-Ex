@@ -3,7 +3,6 @@ import "./App.css";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import axios from "axios";
 import phonebookServices from "./services/persons";
 import Notification from "./components/Notification";
 
@@ -18,8 +17,8 @@ function App() {
   });
 
   const getPersons = () => {
-    axios.get("http://localhost:3001/persons").then((res) => {
-      setPersons(res.data);
+    phonebookServices.getContacts().then((res) => {
+      setPersons(res);
     });
   };
 
@@ -133,7 +132,7 @@ function App() {
       phonebookServices
         .deleteContact(id)
         .then((res) => {
-          const filteredPersons = persons.filter((p) => p.id !== res.id);
+          const filteredPersons = persons.filter((p) => p.id !== id);
           setPersons(filteredPersons);
           handleNotification(
             `Contact has been deleted successfully.`,
