@@ -131,7 +131,7 @@ function App() {
     if (window.confirm("Are you sure you want to delete?")) {
       phonebookServices
         .deleteContact(id)
-        .then((res) => {
+        .then(() => {
           const filteredPersons = persons.filter((p) => p.id !== id);
           setPersons(filteredPersons);
           handleNotification(
