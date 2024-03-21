@@ -3,19 +3,13 @@ const PersonForm = ({ handleSubmit, newName, newNumber, handleChange }) => {
     <form onSubmit={handleSubmit}>
       <div>
         Name: <br />{" "}
-        <input
-          required
-          name="newName"
-          value={newName}
-          onChange={handleChange}
-        />
+        <input name="newName" value={newName} onChange={handleChange} />
       </div>
       <div>
         Number: <br />{" "}
         <input
           name="newNumber"
           type="tel"
-          required
           value={newNumber}
           onChange={handleChange}
         />

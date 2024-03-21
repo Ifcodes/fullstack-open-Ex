@@ -33,7 +33,7 @@ function App() {
         type: "",
         message: "",
       });
-    }, 3000);
+    }, 5000);
   };
 
   useEffect(getPersons, []);
@@ -74,7 +74,10 @@ function App() {
         );
       })
       .catch((err) => {
-        handleNotification(`Failed to update. ${err.message}`, "error");
+        handleNotification(
+          `Failed to update. ${err.response.data.err}`,
+          "error"
+        );
       });
   };
 
@@ -95,7 +98,7 @@ function App() {
       id: generateId(),
     };
 
-    if (nameExists && nameExists.number !== newNumber) {
+    if (nameExists) {
       if (
         window.confirm(
           `${nameExists.name} is already added to phonebook, replace old number with ${newNumber}?`
@@ -108,23 +111,26 @@ function App() {
         updateContact(dataToUpdate);
         return;
       }
+    } else {
+      phonebookServices
+        .createContact(data)
+        .then((res) => {
+          setNewName("");
+          setNewNumber("");
+          setPersons(persons.concat(res));
+          handleNotification(
+            `${res.name} has been added successfully`,
+            "success"
+          );
+        })
+        .catch((err) => {
+          handleNotification(
+            `Failed to create! ${err.response.data.err}`,
+            "error"
+          );
+          console.log(err);
+        });
     }
-
-    phonebookServices
-      .createContact(data)
-      .then((res) => {
-        setNewName("");
-        setNewNumber("");
-        setPersons(persons.concat(res));
-        handleNotification(
-          `${res.name} has been added successfully`,
-          "success"
-        );
-      })
-      .catch((err) => {
-        handleNotification(`Failed to create!`, "error");
-        console.log(err);
-      });
   };
 
   const handleDelete = (id) => () => {
